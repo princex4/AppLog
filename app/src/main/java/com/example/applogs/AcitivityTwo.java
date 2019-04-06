@@ -9,18 +9,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class AcitivityTwo extends AppCompatActivity {
 
     public static final String Tag = AcitivityTwo.class.getSimpleName();
     private String username;
-    private TextView txtUserName;
+    @BindView(R.id.txt_username) TextView txtUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acitivity_two);
-        Log.d(Tag , "OnCreate");
-        txtUserName = findViewById(R.id.txt_username);
+        ButterKnife.bind(this);
+        Log.d(Tag, "OnCreate");
         txtUserName.setText(username);
 
         SharedPreferences prefs = this.getSharedPreferences(
@@ -69,6 +73,7 @@ public class AcitivityTwo extends AppCompatActivity {
     }
 
 
+    @OnClick(R.id.btn_logout)
     public void logout(View view) {
         SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.applogs", Context.MODE_PRIVATE);

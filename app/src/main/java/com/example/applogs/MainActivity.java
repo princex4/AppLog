@@ -14,31 +14,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String BUNDLE_USERNAME = "username";
-    private EditText etxUserName;
-    private EditText etxPassword;
-    private Button btnSubmit;
+    @BindView(R.id.etx_username)  EditText etxUserName;
+    @BindView(R.id.etx_password)  EditText etxPassword;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        etxUserName = findViewById(R.id.etx_username);
-        etxPassword = findViewById(R.id.etx_password);
-        btnSubmit = findViewById(R.id.btn_submit);
+        ButterKnife.bind(this);
 
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launch();
-            }
-        });
-g
         etxPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -87,7 +81,8 @@ g
         Log.d(TAG, "onRestart");
     }
 
-    public void launch() {
+   @OnClick(R.id.btn_submit)
+   public void launch() {
         if ("admin".equals(etxUserName.getText().toString()) && ("pass123".equals(etxPassword.getText().toString()))) {
             SharedPreferences prefs = this.getSharedPreferences(
                     "com.example.applogs", Context.MODE_PRIVATE);
