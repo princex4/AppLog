@@ -16,6 +16,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -94,9 +106,10 @@ public class MainActivity extends AppCompatActivity {
         loginAsyncTask.execute(etxUserName.getText().toString(), etxPassword.getText().toString());
     }
 
-    private class LoginAsyncTask extends AsyncTask<String, Integer, Boolean> {
+    private class LoginAsyncTask extends AsyncTask<String, Void, String> {
 
         private String userName;
+
 
         @Override
         protected void onPreExecute() {
@@ -107,45 +120,106 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected String doInBackground(String... strings) {
             userName = strings[0];
             String passWord = strings[1];
 
-            for (int i = 0; i < 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                    publishProgress(i);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+            try {
+                // This is getting the url from the string we passed in
+                URL url = new URL("https://reqres.in/api/login");
+
+                // Create the urlConnection
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                urlConnection.setRequestMethod("POST");
+
+
+                // OPTIONAL - Sets an authorization header
+                //urlConnection.setRequestProperty("Authorization", "someAuthString");
+                JSONObject postData = new JSONObject();
+                if (userName != null && !userName.isEmpty()) {
+                    postData.put("email", userName);
                 }
-            }
+                if (passWord != null && !passWord.isEmpty()) {
+                    postData.put("password", passWord);
+                }
+                Log.d(TAG, "postdata = "+postData.toString());
+                // Send the post body
+                if (postData != null) {
+                    OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
+                    writer.write(postData.toString());
+                    writer.flush();
+                }
 
-            if ("admin".equals(userName) && ("pass123".equals(passWord))) {
-                return true;
-            } else {
-                return false;
+                int statusCode = urlConnection.getResponseCode();
+
+                if (statusCode == 200) {
+
+                    InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+
+                    String response = convertInputStreamToString(inputStream);
+                    return response;
+
+                    // From here you can convert the string to JSON with whatever JSON parser you like to use
+                    // After converting the string to JSON, I call my custom callback. You can follow this process too, or you can implement the onPostExecute(Result) method
+                } else {
+                    // Status code is not 200
+                    // Do something to handle the error
+                    return null;
+                }
+
+            } catch (Exception e) {
+                Log.d(TAG, e.getLocalizedMessage());
             }
+            return null;
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            txtProgress.setText("" + values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(String response) {
+            String token = null;
             pbLogin.setVisibility(View.GONE);
             txtProgress.setVisibility(View.GONE);
-            if (aBoolean == true) {
+            Log.d(TAG, "Response "+response);
+            try {
+                if(response!=null){
+                    JSONObject responseJsonObject = new JSONObject(response);
+                    token = responseJsonObject.optString("token", null);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (token!=null && !token.isEmpty()){
                 PreferenceHelper.getInstance(MainActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
                 Intent intent = new Intent(MainActivity.this, AcitivityTwo.class);
                 startActivity(intent);
                 finish();
-            } else {
+            } else{
                 Toast.makeText(MainActivity.this, "Credentials are not valid", Toast.LENGTH_SHORT).show();
             }
         }
+
+        private String convertInputStreamToString(InputStream inputStream) {
+            try {
+                BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder total = new StringBuilder();
+                for (String line; (line = r.readLine()) != null; ) {
+                    total.append(line).append('\n');
+                }
+                return total.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
     }
+
 }
+
