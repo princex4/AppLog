@@ -1,9 +1,12 @@
 package com.example.applogs;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 public class AcitivityTwo extends AppCompatActivity {
@@ -17,11 +20,15 @@ public class AcitivityTwo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acitivity_two);
         Log.d(Tag , "OnCreate");
-
-        Intent intent = getIntent();
-        username = intent.getStringExtra(MainActivity.BUNDLE_USERNAME);
         txtUserName = findViewById(R.id.txt_username);
         txtUserName.setText(username);
+
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.applogs", Context.MODE_PRIVATE);
+
+        username = prefs.getString("user_name", null);
+        txtUserName.setText(username);
+
 
     }
 
@@ -62,4 +69,14 @@ public class AcitivityTwo extends AppCompatActivity {
     }
 
 
+    public void logout(View view) {
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.applogs", Context.MODE_PRIVATE);
+
+        prefs.edit().putString("user_name", null).apply();
+
+        Intent intent = new Intent(AcitivityTwo.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
