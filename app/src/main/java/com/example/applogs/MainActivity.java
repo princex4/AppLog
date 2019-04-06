@@ -3,6 +3,7 @@ package com.example.applogs;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
     EditText etxUserName;
     @BindView(R.id.etx_password)
     EditText etxPassword;
-
+    @BindView(R.id.pb_login)
+    ProgressBar pbLogin;
+    @BindView(R.id.txt_progressbar)
+    TextView txtProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
 
         etxPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -85,18 +89,63 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_submit)
     public void launch() {
-        if ("admin".equals(etxUserName.getText().toString()) && ("pass123".equals(etxPassword.getText().toString()))) {
 
+        LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
+        loginAsyncTask.execute(etxUserName.getText().toString(), etxPassword.getText().toString());
+    }
 
-            String usrName = etxUserName.getText().toString();
-            PreferenceHelper.getInstance(MainActivity.this).setString(PreferenceHelper.KEY_USERNAME, usrName);
+    private class LoginAsyncTask extends AsyncTask<String, Integer, Boolean> {
 
-            Intent intent = new Intent(this, AcitivityTwo.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Credentials are not valid", Toast.LENGTH_SHORT).show();
+        private String userName;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pbLogin.setVisibility(View.VISIBLE);
+            txtProgress.setVisibility(View.VISIBLE);
+            txtProgress.setText("0");
         }
 
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            userName = strings[0];
+            String passWord = strings[1];
+
+            for (int i = 0; i < 5; i++) {
+                try {
+                    Thread.sleep(1000);
+                    publishProgress(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if ("admin".equals(userName) && ("pass123".equals(passWord))) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            txtProgress.setText("" + values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            pbLogin.setVisibility(View.GONE);
+            txtProgress.setVisibility(View.GONE);
+            if (aBoolean == true) {
+                PreferenceHelper.getInstance(MainActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
+                Intent intent = new Intent(MainActivity.this, AcitivityTwo.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "Credentials are not valid", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
