@@ -17,7 +17,8 @@ public class AcitivityTwo extends AppCompatActivity {
 
     public static final String Tag = AcitivityTwo.class.getSimpleName();
     private String username;
-    @BindView(R.id.txt_username) TextView txtUserName;
+    @BindView(R.id.txt_username)
+    TextView txtUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +28,8 @@ public class AcitivityTwo extends AppCompatActivity {
         Log.d(Tag, "OnCreate");
         txtUserName.setText(username);
 
-        SharedPreferences prefs = this.getSharedPreferences(
-                "com.example.applogs", Context.MODE_PRIVATE);
 
-        username = prefs.getString("user_name", null);
+        username = PreferenceHelper.getInstance(AcitivityTwo.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
 
 
@@ -75,10 +74,9 @@ public class AcitivityTwo extends AppCompatActivity {
 
     @OnClick(R.id.btn_logout)
     public void logout(View view) {
-        SharedPreferences prefs = this.getSharedPreferences(
-                "com.example.applogs", Context.MODE_PRIVATE);
 
-        prefs.edit().putString("user_name", null).apply();
+
+        PreferenceHelper.getInstance(AcitivityTwo.this).setString(PreferenceHelper.KEY_USERNAME, null);
 
         Intent intent = new Intent(AcitivityTwo.this, MainActivity.class);
         startActivity(intent);

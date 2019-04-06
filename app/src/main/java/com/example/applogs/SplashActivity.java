@@ -21,9 +21,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
 
-                SharedPreferences prefs = getSharedPreferences(
-                        "com.example.applogs", Context.MODE_PRIVATE);
-                String userName = prefs.getString("user_name", null);
+                String userName = PreferenceHelper.getInstance(SplashActivity.this).getString(PreferenceHelper.KEY_USERNAME);
                 Intent intent;
                 if (userName != null) {
                     intent = new Intent(SplashActivity.this, AcitivityTwo.class);

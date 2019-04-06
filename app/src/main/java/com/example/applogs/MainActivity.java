@@ -22,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String BUNDLE_USERNAME = "username";
-    @BindView(R.id.etx_username)  EditText etxUserName;
-    @BindView(R.id.etx_password)  EditText etxPassword;
+    @BindView(R.id.etx_username)
+    EditText etxUserName;
+    @BindView(R.id.etx_password)
+    EditText etxPassword;
 
 
     @Override
@@ -81,14 +83,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onRestart");
     }
 
-   @OnClick(R.id.btn_submit)
-   public void launch() {
+    @OnClick(R.id.btn_submit)
+    public void launch() {
         if ("admin".equals(etxUserName.getText().toString()) && ("pass123".equals(etxPassword.getText().toString()))) {
-            SharedPreferences prefs = this.getSharedPreferences(
-                    "com.example.applogs", Context.MODE_PRIVATE);
+
 
             String usrName = etxUserName.getText().toString();
-            prefs.edit().putString("user_name", usrName).apply();
+            PreferenceHelper.getInstance(MainActivity.this).setString(PreferenceHelper.KEY_USERNAME, usrName);
 
             Intent intent = new Intent(this, AcitivityTwo.class);
             startActivity(intent);
