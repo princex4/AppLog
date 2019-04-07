@@ -29,9 +29,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = LoginActivity.class.getSimpleName();
     public static final String BUNDLE_USERNAME = "username";
     @BindView(R.id.etx_username)
     EditText etxUserName;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         etxPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -193,12 +193,12 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (token!=null && !token.isEmpty()){
-                PreferenceHelper.getInstance(MainActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
-                Intent intent = new Intent(MainActivity.this, AcitivityTwo.class);
+                PreferenceHelper.getInstance(LoginActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
+                Intent intent = new Intent(LoginActivity.this, ProductLeastActivity.class);
                 startActivity(intent);
                 finish();
             } else{
-                Toast.makeText(MainActivity.this, "Credentials are not valid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Credentials are not valid", Toast.LENGTH_SHORT).show();
             }
         }
 
