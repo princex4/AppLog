@@ -179,15 +179,29 @@ public class ProductListActivity extends AppCompatActivity {
                     for (int i = 0; i < productJArray.length(); i++) {
                         JSONObject productJObject = productJArray.getJSONObject(i);
 
-                        String productName = productJObject.optString("name");
                         ProductModel productModel = new ProductModel();
+
+                        String productName = productJObject.optString("name");
                         productModel.setName(productName);
 
                         String productId = productJObject.optString("productId");
                         productModel.setId(productId);
 
-                        productArrayList.add(productModel);
+                        JSONObject dimensionsJObject = productJObject.getJSONObject("dimensions");
+                        float length =(float) dimensionsJObject.optDouble("length");
+                        float width =(float) dimensionsJObject.optDouble("width");
+                        float height =(float) dimensionsJObject.optDouble("height");
+                        DimensionsModel dimensionsModel = new DimensionsModel(length, width, height);
+                        productModel.setDimensionsModel(dimensionsModel);
 
+                        JSONArray tagsJArray = productJObject.getJSONArray("tags");
+                        ArrayList<String> tagsArrayList = new ArrayList<>();
+                        for (int j = 0; j < tagsJArray.length() ; j++) {
+                            tagsArrayList.add(tagsJArray.optString(j));
+                        }
+                        productModel.setTagArrayList(tagsArrayList);
+
+                        productArrayList.add(productModel);
 
                         Log.d(TAG, "At index" + i + " " + productName);
                     }
@@ -198,9 +212,12 @@ public class ProductListActivity extends AppCompatActivity {
 
             for (int i = 0; i < productArrayList.size(); i++) {
                 ProductModel tempProductModel = productArrayList.get(i);
-                Log.d(TAG, "Product id: " +tempProductModel.getId() + "Product Name "+tempProductModel.getName());
+                Log.d(TAG, "Product id: " +tempProductModel.getId() + "Product Name "+tempProductModel.getName()
+                + " Length " +tempProductModel.getDimensionsModel().getLength());
+                for (int j = 0; j < tempProductModel.getTagArrayList().size(); j++) {
+                    Log.d(TAG, "Tags: " +tempProductModel.getTagArrayList().get(j));
+                }
             }
-
         }
 
         private String convertInputStreamToString(InputStream inputStream) {
