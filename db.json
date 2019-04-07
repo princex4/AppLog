@@ -1,0 +1,274 @@
+{
+  "productData": [
+    {
+      "productId": "mobile_121",
+      "name": "iPhone X",
+      "description": "Description of iPhone X",
+      "weight": "450 gm",
+      "images": [
+        "https://goo.gl/QPXgGJ",
+        "https://goo.gl/EBaQka",
+        "https://goo.gl/jEs447"
+      ],
+      "phone": "+1 (562) 922-3425",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 456,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 6,
+        "width": 13,
+        "height": 9.5
+      },
+      "warehouseLocation": {
+        "latitude": 43.6321763,
+        "longitude": -79.771072
+      }
+    },
+    {
+      "productId": "mobile_122",
+      "name": "iPhone 8",
+      "description": "Description of iPhone 8",
+      "phone": "+1 (235) 922-6547",
+      "web": "https://www.bestbuy.ca/",
+      "price": 785,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 9,
+        "width": 12,
+        "height": 8
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      },
+      "weight": "589 gm",
+      "images": [
+        "https://goo.gl/qgk7A9",
+        "https://goo.gl/gvEipJ",
+        "https://goo.gl/YjnDgD"
+      ]
+    },
+    {
+      "productId": "mobile_123",
+      "name": "iPhone 7",
+      "description": "Description of iPhone 7",
+      "weight": "500 gm",
+      "images": [
+        "https://goo.gl/tdNtSS",
+        "https://goo.gl/fBsyax",
+        "https://goo.gl/RU8VFv"
+      ],
+      "phone": "+1 (437) 356-8906",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 850,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 8,
+        "width": 12,
+        "height": 9.5
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_124",
+      "name": "iPhone SE",
+      "description": "Description of iPhone X",
+      "weight": "540 gm",
+      "images": [
+        "https://goo.gl/DoW8Yp",
+        "https://goo.gl/RQk9ZG",
+        "https://goo.gl/ogmMXH"
+      ],
+      "phone": "+1 (866) 666-8906",
+      "web": "https://www.staples.ca/",
+      "price": 1500,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 7,
+        "width": 12.5,
+        "height": 9
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_125",
+      "name": "iPhone 6",
+      "description": "Description of iPhone X",
+      "weight": "470 gm",
+      "images": [
+        "https://goo.gl/QC2z79",
+        "https://goo.gl/TCBnxk",
+        "https://goo.gl/yayr7q"
+      ],
+      "phone": "+1 (437) 364-0935",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 900,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 7,
+        "width": 11,
+        "height": 7
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_126",
+      "name": "Google Pixel 2",
+      "description": "Description of iPhone X",
+      "weight": "532 gm",
+      "images": [
+        "https://goo.gl/WRa7wy",
+        "https://goo.gl/b6AoX7",
+        "https://goo.gl/B648xS"
+      ],
+      "phone": "+1 (963) 922-8906",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 450,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 7,
+        "width": 12,
+        "height": 9
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_127",
+      "name": "Galaxy S8",
+      "description": "Description of iPhone X",
+      "weight": "390 gm",
+      "images": [
+        "https://goo.gl/LK6kaq",
+        "https://goo.gl/ico5zP",
+        "https://goo.gl/YoGsKw"
+      ],
+      "phone": "+1 (999) 922-8888",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 1200,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 7,
+        "width": 9,
+        "height": 9.5
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_128",
+      "name": "Galaxy Note 8",
+      "description": "Description of iPhone X",
+      "weight": "623 gm",
+      "images": [
+        "https://goo.gl/g2Zd6Q",
+        "https://goo.gl/brecby",
+        "https://goo.gl/hqpJEz"
+      ],
+      "phone": "+1 (745) 985-1241",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 986,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 6,
+        "width": 12,
+        "height": 8
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_129",
+      "name": "One Plus 5t",
+      "description": "Description of iPhone X",
+      "weight": "550",
+      "images": [
+        "https://goo.gl/DnJ2vT",
+        "https://goo.gl/LreaCP",
+        "https://goo.gl/ya7FwX"
+      ],
+      "phone": "+1 (896) 231-3554",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 635,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 5,
+        "width": 9,
+        "height": 6.5
+      },
+      "warehouseLocation": {
+        "latitude": 43.4841663,
+        "longitude": -79.929372
+      }
+    },
+    {
+      "productId": "mobile_1210",
+      "name": "Google Nexus 6p",
+      "description": "Description of iPhone X",
+      "weight": "630 gm",
+      "images": [
+        "https://goo.gl/1zLPeq",
+        "https://goo.gl/d2aVwP",
+        "https://goo.gl/vUYLXc"
+      ],
+      "phone": "+1 (789) 654-8906",
+      "web": "https://www.facebook.com/stepin2it/",
+      "price": 479,
+      "tags": [
+        "cold",
+        "ice"
+      ],
+      "dimensions": {
+        "length": 8,
+        "width": 13,
+        "height": 10.5
+      },
+      "warehouseLocation": {
+        "latitude": 43.0280945,
+        "longitude": -79.679433
+      }
+    }
+  ]
+}
