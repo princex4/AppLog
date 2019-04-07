@@ -22,14 +22,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProductLeastActivity extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity {
 
-    public static final String TAG = ProductLeastActivity.class.getSimpleName();
+    public static final String TAG = ProductListActivity.class.getSimpleName();
     private String username;
     @BindView(R.id.txt_username)
     TextView txtUserName;
@@ -40,11 +41,11 @@ public class ProductLeastActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_least);
+        setContentView(R.layout.activity_product_list);
         ButterKnife.bind(this);
         Log.d(TAG, "OnCreate");
         txtUserName.setText(username);
-        username = PreferenceHelper.getInstance(ProductLeastActivity.this).getString(PreferenceHelper.KEY_USERNAME);
+        username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
         ProductAsync productAsync = new ProductAsync("https://my-json-server.typicode.com/princex11/AppLog/productData");
         productAsync.execute();
@@ -88,9 +89,9 @@ public class ProductLeastActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_logout)
     public void logout(View view) {
-        PreferenceHelper.getInstance(ProductLeastActivity.this).setString(PreferenceHelper.KEY_USERNAME, null);
+        PreferenceHelper.getInstance(ProductListActivity.this).setString(PreferenceHelper.KEY_USERNAME, null);
 
-        Intent intent = new Intent(ProductLeastActivity.this, LoginActivity.class);
+        Intent intent = new Intent(ProductListActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -170,18 +171,34 @@ public class ProductLeastActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response) {
             pbProduct.setVisibility(View.GONE);
+            ArrayList<ProductModel> productArrayList = new ArrayList<>();
             // Log.d(TAG, "Response "+response);
             try {
                 if (response != null) {
                     JSONArray productJArray = new JSONArray(response);
                     for (int i = 0; i < productJArray.length(); i++) {
                         JSONObject productJObject = productJArray.getJSONObject(i);
+
                         String productName = productJObject.optString("name");
+                        ProductModel productModel = new ProductModel();
+                        productModel.setName(productName);
+
+                        String productId = productJObject.optString("productId");
+                        productModel.setId(productId);
+
+                        productArrayList.add(productModel);
+
+
                         Log.d(TAG, "At index" + i + " " + productName);
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            for (int i = 0; i < productArrayList.size(); i++) {
+                ProductModel tempProductModel = productArrayList.get(i);
+                Log.d(TAG, "Product id: " +tempProductModel.getId() + "Product Name "+tempProductModel.getName());
             }
 
         }

@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (token!=null && !token.isEmpty()){
                 PreferenceHelper.getInstance(LoginActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
-                Intent intent = new Intent(LoginActivity.this, ProductLeastActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ProductListActivity.class);
                 startActivity(intent);
                 finish();
             } else{

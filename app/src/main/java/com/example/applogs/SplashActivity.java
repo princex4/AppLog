@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
                 String userName = PreferenceHelper.getInstance(SplashActivity.this).getString(PreferenceHelper.KEY_USERNAME);
                 Intent intent;
                 if (userName != null) {
-                    intent = new Intent(SplashActivity.this, ProductLeastActivity.class);
+                    intent = new Intent(SplashActivity.this, ProductListActivity.class);
                 } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }
