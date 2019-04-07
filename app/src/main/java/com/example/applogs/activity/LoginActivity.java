@@ -1,4 +1,4 @@
-package com.example.applogs;
+package com.example.applogs.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

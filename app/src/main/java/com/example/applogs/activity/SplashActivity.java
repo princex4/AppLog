@@ -1,9 +1,12 @@
-package com.example.applogs;
+package com.example.applogs.activity;
 
 import android.content.Intent;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.R;
 
 public class SplashActivity extends AppCompatActivity {
 

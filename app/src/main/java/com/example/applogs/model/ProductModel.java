@@ -1,4 +1,4 @@
-package com.example.applogs;
+package com.example.applogs.model;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.applogs;
+package com.example.applogs.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

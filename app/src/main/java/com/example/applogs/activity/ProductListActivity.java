@@ -1,4 +1,4 @@
-package com.example.applogs;
+package com.example.applogs.activity;
 
 import android.content.Intent;
 
@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.applogs.model.DimensionsModel;
+import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.model.ProductModel;
+import com.example.applogs.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
