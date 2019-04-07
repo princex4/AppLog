@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.applogs.adapter.ProductAdapter;
 import com.example.applogs.model.DimensionsModel;
 import com.example.applogs.utils.PreferenceHelper;
 import com.example.applogs.model.ProductModel;
@@ -29,6 +30,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,6 +44,8 @@ public class ProductListActivity extends AppCompatActivity {
     TextView txtUserName;
     @BindView(R.id.pb_product)
     ProgressBar pbProduct;
+    @BindView(R.id.rv_product)
+    RecyclerView rvProduct;
 
 
     @Override
@@ -210,6 +215,9 @@ public class ProductListActivity extends AppCompatActivity {
 
                         Log.d(TAG, "At index" + i + " " + productName);
                     }
+                    rvProduct.setLayoutManager(new LinearLayoutManager(ProductListActivity.this));
+                    ProductAdapter productAdapter = new ProductAdapter(ProductListActivity.this, productArrayList);
+                    rvProduct.setAdapter(productAdapter);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
