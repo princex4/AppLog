@@ -1,20 +1,52 @@
+
 package com.example.applogs.model;
 
-import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class ProductModel {
 
-    private String id;
+    @SerializedName("productId")
+    @Expose
+    private String productId;
+    @SerializedName("name")
+    @Expose
     private String name;
-    private DimensionsModel dimensionsModel;
-    private ArrayList<String> tagArrayList;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("weight")
+    @Expose
+    private String weight;
+    @SerializedName("images")
+    @Expose
+    private List<String> images = null;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+    @SerializedName("web")
+    @Expose
+    private String web;
+    @SerializedName("price")
+    @Expose
+    private Double price;
+    @SerializedName("tags")
+    @Expose
+    private List<String> tags = null;
+    @SerializedName("dimensions")
+    @Expose
+    private Dimensions dimensions;
+    @SerializedName("warehouseLocation")
+    @Expose
+    private WarehouseLocation warehouseLocation;
 
-    public String getId() {
-        return id;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -25,19 +57,76 @@ public class ProductModel {
         this.name = name;
     }
 
-    public DimensionsModel getDimensionsModel() {
-        return dimensionsModel;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDimensionsModel(DimensionsModel dimensionsModel) {
-        this.dimensionsModel = dimensionsModel;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public ArrayList<String> getTagArrayList() {
-        return tagArrayList;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setTagArrayList(ArrayList<String> tagArrayList) {
-        this.tagArrayList = tagArrayList;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public Dimensions getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Dimensions dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public WarehouseLocation getWarehouseLocation() {
+        return warehouseLocation;
+    }
+
+    public void setWarehouseLocation(WarehouseLocation warehouseLocation) {
+        this.warehouseLocation = warehouseLocation;
+    }
+
 }

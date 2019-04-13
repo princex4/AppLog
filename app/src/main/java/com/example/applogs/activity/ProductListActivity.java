@@ -12,7 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.applogs.adapter.ProductAdapter;
-import com.example.applogs.model.DimensionsModel;
+import com.example.applogs.data.ApiInterface;
+import com.example.applogs.data.RetrofitApiClient;
 import com.example.applogs.utils.PreferenceHelper;
 import com.example.applogs.model.ProductModel;
 import com.example.applogs.R;
@@ -35,6 +36,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -57,8 +61,26 @@ public class ProductListActivity extends AppCompatActivity {
         txtUserName.setText(username);
         username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
-        ProductAsync productAsync = new ProductAsync("https://my-json-server.typicode.com/princex11/AppLog/productData");
-        productAsync.execute();
+
+        ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
+        Call<ArrayList<ProductModel>> productApiCall =  apiInterface.getProducts();
+        productApiCall.enqueue(new Callback<ArrayList<ProductModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ProductModel>> call, Response<ArrayList<ProductModel>> response) {
+                pbProduct.setVisibility(View.GONE);
+                ArrayList<ProductModel> productArrayList = response.body();
+                rvProduct.setLayoutManager(new LinearLayoutManager(ProductListActivity.this));
+                ProductAdapter productAdapter = new ProductAdapter(ProductListActivity.this, productArrayList);
+                rvProduct.setAdapter(productAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ProductModel>> call, Throwable t) {
+                pbProduct.setVisibility(View.GONE);
+                t.printStackTrace();
+            }
+        });
+
     }
 
     @Override
@@ -105,151 +127,4 @@ public class ProductListActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    private class ProductAsync extends AsyncTask<String, Void, String> {
-
-        private String urlEndpoint;
-
-
-        public ProductAsync(String urlEndpoint) {
-            this.urlEndpoint = urlEndpoint;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                // This is getting the url from the string we passed in
-                URL url = new URL(urlEndpoint);
-
-                // Create the urlConnection
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-
-               // urlConnection.setDoInput(true);
-               // urlConnection.setDoOutput(true);
-
-               // urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                urlConnection.setRequestMethod("GET");
-
-
-                // OPTIONAL - Sets an authorization header
-                //urlConnection.setRequestProperty("Authorization", "someAuthString");
-//                JSONObject postData = new JSONObject();
-//                if (userName != null && !userName.isEmpty()) {
-//                    postData.put("email", userName);
-//                }
-//                if (passWord != null && !passWord.isEmpty()) {
-//                    postData.put("password", passWord);
-//                }
-//                Log.d(TAG, "postdata = "+postData.toString());
-//                // Send the post body
-//                if (postData != null) {
-//                    OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
-//                    writer.write(postData.toString());
-//                    writer.flush();
-//                }
-
-                int statusCode = urlConnection.getResponseCode();
-
-                if (statusCode == 200) {
-
-                    InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-
-                    String response = convertInputStreamToString(inputStream);
-                    return response;
-
-                    // From here you can convert the string to JSON with whatever JSON parser you like to use
-                    // After converting the string to JSON, I call my custom callback. You can follow this process too, or you can implement the onPostExecute(Result) method
-                } else {
-                    // Status code is not 200
-                    // Do something to handle the error
-                    return null;
-                }
-
-            } catch (Exception e) {
-                Log.d(TAG, e.getLocalizedMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            pbProduct.setVisibility(View.GONE);
-            ArrayList<ProductModel> productArrayList = new ArrayList<>();
-            // Log.d(TAG, "Response "+response);
-            try {
-                if (response != null) {
-                    JSONArray productJArray = new JSONArray(response);
-                    for (int i = 0; i < productJArray.length(); i++) {
-                        JSONObject productJObject = productJArray.getJSONObject(i);
-
-                        ProductModel productModel = new ProductModel();
-
-                        String productName = productJObject.optString("name");
-                        productModel.setName(productName);
-
-                        String productId = productJObject.optString("productId");
-                        productModel.setId(productId);
-
-                        JSONObject dimensionsJObject = productJObject.getJSONObject("dimensions");
-                        float length =(float) dimensionsJObject.optDouble("length");
-                        float width =(float) dimensionsJObject.optDouble("width");
-                        float height =(float) dimensionsJObject.optDouble("height");
-                        DimensionsModel dimensionsModel = new DimensionsModel(length, width, height);
-                        productModel.setDimensionsModel(dimensionsModel);
-
-                        JSONArray tagsJArray = productJObject.getJSONArray("tags");
-                        ArrayList<String> tagsArrayList = new ArrayList<>();
-                        for (int j = 0; j < tagsJArray.length() ; j++) {
-                            tagsArrayList.add(tagsJArray.optString(j));
-                        }
-                        productModel.setTagArrayList(tagsArrayList);
-
-                        productArrayList.add(productModel);
-
-                        Log.d(TAG, "At index" + i + " " + productName);
-                    }
-                    rvProduct.setLayoutManager(new LinearLayoutManager(ProductListActivity.this));
-                    ProductAdapter productAdapter = new ProductAdapter(ProductListActivity.this, productArrayList);
-                    rvProduct.setAdapter(productAdapter);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            for (int i = 0; i < productArrayList.size(); i++) {
-                ProductModel tempProductModel = productArrayList.get(i);
-                Log.d(TAG, "Product id: " +tempProductModel.getId() + "Product Name "+tempProductModel.getName()
-                + " Length " +tempProductModel.getDimensionsModel().getLength());
-                for (int j = 0; j < tempProductModel.getTagArrayList().size(); j++) {
-                    Log.d(TAG, "Tags: " +tempProductModel.getTagArrayList().get(j));
-                }
-            }
-        }
-
-        private String convertInputStreamToString(InputStream inputStream) {
-            try {
-                BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder total = new StringBuilder();
-                for (String line; (line = r.readLine()) != null; ) {
-                    total.append(line).append('\n');
-                }
-                return total.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-    }
-
-
 }
-
-
