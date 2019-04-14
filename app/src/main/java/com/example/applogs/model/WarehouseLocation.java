@@ -1,12 +1,15 @@
 
 package com.example.applogs.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class WarehouseLocation implements Serializable {
+public class WarehouseLocation implements Parcelable {
 
     @SerializedName("latitude")
     @Expose
@@ -31,4 +34,34 @@ public class WarehouseLocation implements Serializable {
         this.longitude = longitude;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.latitude);
+        dest.writeValue(this.longitude);
+    }
+
+    public WarehouseLocation() {
+    }
+
+    protected WarehouseLocation(Parcel in) {
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<WarehouseLocation> CREATOR = new Parcelable.Creator<WarehouseLocation>() {
+        @Override
+        public WarehouseLocation createFromParcel(Parcel source) {
+            return new WarehouseLocation(source);
+        }
+
+        @Override
+        public WarehouseLocation[] newArray(int size) {
+            return new WarehouseLocation[size];
+        }
+    };
 }

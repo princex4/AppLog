@@ -1,12 +1,15 @@
 
 package com.example.applogs.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductModel implements Serializable {
+public class ProductModel implements Parcelable {
 
     @SerializedName("productId")
     @Expose
@@ -130,4 +133,52 @@ public class ProductModel implements Serializable {
         this.warehouseLocation = warehouseLocation;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.productId);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(this.weight);
+        dest.writeStringList(this.images);
+        dest.writeString(this.phone);
+        dest.writeString(this.web);
+        dest.writeValue(this.price);
+        dest.writeStringList(this.tags);
+        dest.writeParcelable(this.dimensions, flags);
+        dest.writeParcelable(this.warehouseLocation, flags);
+    }
+
+    public ProductModel() {
+    }
+
+    protected ProductModel(Parcel in) {
+        this.productId = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.weight = in.readString();
+        this.images = in.createStringArrayList();
+        this.phone = in.readString();
+        this.web = in.readString();
+        this.price = (Double) in.readValue(Double.class.getClassLoader());
+        this.tags = in.createStringArrayList();
+        this.dimensions = in.readParcelable(Dimensions.class.getClassLoader());
+        this.warehouseLocation = in.readParcelable(WarehouseLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ProductModel> CREATOR = new Parcelable.Creator<ProductModel>() {
+        @Override
+        public ProductModel createFromParcel(Parcel source) {
+            return new ProductModel(source);
+        }
+
+        @Override
+        public ProductModel[] newArray(int size) {
+            return new ProductModel[size];
+        }
+    };
 }

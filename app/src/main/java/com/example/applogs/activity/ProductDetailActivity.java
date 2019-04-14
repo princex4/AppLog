@@ -19,7 +19,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
 
         Intent intent = getIntent();
-        ProductModel product = (ProductModel)intent.getSerializableExtra(BUNDLE_PRODUCT);
+        ProductModel product = intent.getParcelableExtra(BUNDLE_PRODUCT);
         Log.d("Product Detail Activity", product.getName());
 
 
