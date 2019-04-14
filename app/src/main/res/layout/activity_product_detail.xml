@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".activity.ProductDetailActivity">
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager.widget.PagerTabStrip
+            android:id="@+id/pts_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.viewpager.widget.ViewPager>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
