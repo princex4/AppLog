@@ -126,14 +126,6 @@ public class ProductListActivity extends AppCompatActivity {
         Log.d(TAG, "onRestart");
     }
 
-    @OnClick(R.id.btn_logout)
-    public void logout(View view) {
-        PreferenceHelper.getInstance(ProductListActivity.this).setString(PreferenceHelper.KEY_USERNAME, null);
-
-        Intent intent = new Intent(ProductListActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,7 +138,7 @@ public class ProductListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itm_logout:
-                PreferenceHelper.getInstance(ProductListActivity.this).setString(PreferenceHelper.KEY_USERNAME, null);
+                PreferenceHelper.getInstance(ProductListActivity.this).setString(PreferenceHelper.KEY_TOKEN, null);
 
                 Intent intent = new Intent(ProductListActivity.this, LoginActivity.class);
                 startActivity(intent);

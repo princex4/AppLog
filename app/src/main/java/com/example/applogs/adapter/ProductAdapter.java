@@ -1,6 +1,7 @@
 package com.example.applogs.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.applogs.R;
+import com.example.applogs.activity.ProductDetailActivity;
+import com.example.applogs.activity.ProductListActivity;
+import com.example.applogs.data.IDbConstants;
 import com.example.applogs.model.ProductModel;
 
 import java.util.ArrayList;
@@ -39,6 +43,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.txtId.setText("id = "+productArrayList.get(position).getProductId());
             holder.txtName.setText("name = "+productArrayList.get(position).getName());
         Log.i("xyz", ""+position+" name "+productArrayList.get(position).getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                ProductModel product = productArrayList.get(position);
+                intent.putExtra(ProductDetailActivity.BUNDLE_PRODUCT, product);
+                context.startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
@@ -52,9 +68,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         TextView txtId;
         @BindView(R.id.txt_name)
         TextView txtName;
+        View itemView;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
     }

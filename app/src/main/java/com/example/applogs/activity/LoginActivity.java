@@ -170,9 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                     // From here you can convert the string to JSON with whatever JSON parser you like to use
                     // After converting the string to JSON, I call my custom callback. You can follow this process too, or you can implement the onPostExecute(Result) method
                 } else {
-                    // Status code is not 200
-                    // Do something to handle the error
-                    return null;
+                    Toast.makeText(LoginActivity.this, "Internet is not working", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {
@@ -196,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (token!=null && !token.isEmpty()){
-                PreferenceHelper.getInstance(LoginActivity.this).setString(PreferenceHelper.KEY_USERNAME, userName);
+                PreferenceHelper.getInstance(LoginActivity.this).setString(PreferenceHelper.KEY_TOKEN, token);
                 Intent intent = new Intent(LoginActivity.this, ProductListActivity.class);
                 startActivity(intent);
                 finish();

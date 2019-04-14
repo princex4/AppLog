@@ -10,6 +10,7 @@ public class PreferenceHelper {
     private static SharedPreferences.Editor sPreferenceEditor;
     public static final String KEY_USERNAME = "user_name";
     public static final String PREFERENCE_NAME = "com.example.applogs";
+    public static final String KEY_TOKEN = "token";
 
     private PreferenceHelper() {
     }

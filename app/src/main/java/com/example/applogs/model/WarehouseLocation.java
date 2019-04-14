@@ -4,7 +4,9 @@ package com.example.applogs.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WarehouseLocation {
+import java.io.Serializable;
+
+public class WarehouseLocation implements Serializable {
 
     @SerializedName("latitude")
     @Expose
