@@ -65,7 +65,7 @@ public class ProductListActivity extends AppCompatActivity {
         username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
 
-        ArrayList<ProductModel> productModelArrayList = DBHelper.getInstance(this).getProduct();
+        ArrayList<ProductModel> productModelArrayList = null;//DBHelper.getInstance(this).getProduct();
         if (productModelArrayList == null || productModelArrayList.isEmpty()) {
             ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
             Call<ArrayList<ProductModel>> productApiCall = apiInterface.getProducts();

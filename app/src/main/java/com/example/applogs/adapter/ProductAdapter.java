@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.applogs.GlideApp;
 import com.example.applogs.R;
 import com.example.applogs.activity.ProductDetailActivity;
 import com.example.applogs.activity.ProductListActivity;
@@ -42,6 +45,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
             holder.txtId.setText("id = "+productArrayList.get(position).getProductId());
             holder.txtName.setText("name = "+productArrayList.get(position).getName());
+
+        GlideApp
+                .with(context)
+                .load(productArrayList.get(position).getImages().get(0))
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imgProduct);
+
         Log.i("xyz", ""+position+" name "+productArrayList.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +61,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 ProductModel product = productArrayList.get(position);
                 intent.putExtra(ProductDetailActivity.BUNDLE_PRODUCT, product);
                 context.startActivity(intent);
-
             }
         });
 
@@ -68,6 +77,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         TextView txtId;
         @BindView(R.id.txt_name)
         TextView txtName;
+        @BindView(R.id.img_product)
+        ImageView imgProduct;
         View itemView;
 
         public ProductViewHolder(@NonNull View itemView) {

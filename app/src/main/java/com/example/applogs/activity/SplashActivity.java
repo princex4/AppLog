@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
 
-                String userName = PreferenceHelper.getInstance(SplashActivity.this).getString(PreferenceHelper.KEY_USERNAME);
+                String userName = PreferenceHelper.getInstance(SplashActivity.this).getString(PreferenceHelper.KEY_TOKEN);
                 Intent intent;
                 if (userName != null) {
                     intent = new Intent(SplashActivity.this, ProductListActivity.class);
