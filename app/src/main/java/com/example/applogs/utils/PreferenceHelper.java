@@ -30,7 +30,8 @@ public class PreferenceHelper {
     }
 
     //getter
-    public String getString(String key) {
+    public String getString(String key)
+    {
         return sPreferences.getString(key, null);
     }
 

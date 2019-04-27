@@ -28,9 +28,6 @@ public interface IDbConstants {
                 + WEB+ " TEXT, "
                 +PRICE+ " TEXT"
                 + " )";
-
-
-
-    }
+     }
 
 }

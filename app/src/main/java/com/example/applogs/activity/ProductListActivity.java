@@ -67,12 +67,15 @@ public class ProductListActivity extends AppCompatActivity {
 
         ArrayList<ProductModel> productModelArrayList = null;//DBHelper.getInstance(this).getProduct();
         if (productModelArrayList == null || productModelArrayList.isEmpty()) {
+
             ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
             Call<ArrayList<ProductModel>> productApiCall = apiInterface.getProducts();
+
             productApiCall.enqueue(new Callback<ArrayList<ProductModel>>() {
                 @Override
                 public void onResponse(Call<ArrayList<ProductModel>> call, Response<ArrayList<ProductModel>> response) {
                     pbProduct.setVisibility(View.GONE);
+                    Log.d("response", response.body().toString());
                     ArrayList<ProductModel> productArrayList = response.body();
                     setAdapter(productArrayList);
                     DBHelper.getInstance(ProductListActivity.this).insertProducts(productArrayList);

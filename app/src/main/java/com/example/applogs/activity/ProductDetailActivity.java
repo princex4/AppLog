@@ -38,6 +38,5 @@ public class ProductDetailActivity extends AppCompatActivity {
         ProductDetailViewPagerAdapter viewPagerAdapter = new ProductDetailViewPagerAdapter(getSupportFragmentManager(), product);
         vpProduct.setAdapter(viewPagerAdapter);
 
-
     }
 }
