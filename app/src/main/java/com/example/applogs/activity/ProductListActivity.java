@@ -4,7 +4,6 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,24 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.applogs.adapter.ProductAdapter;
-import com.example.applogs.data.ApiInterface;
-import com.example.applogs.data.DBHelper;
-import com.example.applogs.data.RetrofitApiClient;
-import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.data.DataManager;
+import com.example.applogs.data.remote.ApiInterface;
+import com.example.applogs.data.local.DBHelper;
+import com.example.applogs.data.remote.RetrofitApiClient;
+import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.model.ProductModel;
 import com.example.applogs.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,15 +28,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -71,12 +56,7 @@ public class ProductListActivity extends AppCompatActivity {
         username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
 
-        ArrayList<ProductModel> productModelArrayList = DBHelper.getInstance(this).getProduct();
-        if (productModelArrayList == null || productModelArrayList.isEmpty()) {
-            getProductList();
-        } else {
-            setAdapter(productModelArrayList);
-        }
+        getProductList();
     }
 
     @Override
@@ -144,8 +124,7 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void getProductList() {
-        ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
-        Observable<ArrayList<ProductModel>> productApiObservable = apiInterface.getProducts()
+        Observable<ArrayList<ProductModel>> productApiObservable = DataManager.getInstance(ProductListActivity.this).getProducts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         productApiObservable
@@ -158,7 +137,6 @@ public class ProductListActivity extends AppCompatActivity {
                     @Override
                     public void onNext(ArrayList<ProductModel> productModels) {
                         setAdapter(productModels);
-                        DBHelper.getInstance(ProductListActivity.this).insertProducts(productModels);
                     }
 
                     @Override

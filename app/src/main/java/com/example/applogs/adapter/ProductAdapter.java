@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.applogs.GlideApp;
 import com.example.applogs.R;
 import com.example.applogs.activity.ProductDetailActivity;
-import com.example.applogs.activity.ProductListActivity;
-import com.example.applogs.data.IDbConstants;
 import com.example.applogs.model.ProductModel;
 
 import java.util.ArrayList;

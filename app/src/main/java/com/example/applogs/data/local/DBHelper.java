@@ -1,4 +1,4 @@
-package com.example.applogs.data;
+package com.example.applogs.data.local;
 
 import android.content.ContentValues;
 import android.content.Context;

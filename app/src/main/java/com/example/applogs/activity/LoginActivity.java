@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.R;
 
 import org.json.JSONException;

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.applogs.utils.PreferenceHelper;
+import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.R;
 
 import io.reactivex.Observable;

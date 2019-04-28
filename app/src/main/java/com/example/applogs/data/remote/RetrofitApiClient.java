@@ -1,4 +1,4 @@
-package com.example.applogs.remote;
+package com.example.applogs.data.remote;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -9,26 +9,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitApiClient {
 
-    private static Retrofit retrofit = null;
+    private static RetrofitApiClient retrofitApiClient = null;
+    private static ApiInterface apiInterface = null;
 
-   public static Retrofit getClient(){
+   public static RetrofitApiClient getClient(){
 
-
-
-        if(retrofit==null){
-
+       if(retrofitApiClient==null){
+           retrofitApiClient = new RetrofitApiClient();
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
 
-            retrofit = new Retrofit.Builder()
+            Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://my-json-server.typicode.com")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)
                     .build();
+
+           apiInterface = retrofit.create(ApiInterface.class);
         }
-        return retrofit;
+        return retrofitApiClient;
+    }
+
+    public ApiInterface getApiService(){
+       return apiInterface;
     }
 }
