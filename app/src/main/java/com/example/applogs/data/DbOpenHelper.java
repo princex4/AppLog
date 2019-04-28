@@ -16,6 +16,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(IDbConstants.Product.CREATE_TABLE);
+        db.execSQL(IDbConstants.Image.CREATE_TABLE);
 
     }
 

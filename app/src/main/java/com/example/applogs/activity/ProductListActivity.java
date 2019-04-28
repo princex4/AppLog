@@ -36,9 +36,15 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,30 +71,10 @@ public class ProductListActivity extends AppCompatActivity {
         username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
 
-        ArrayList<ProductModel> productModelArrayList = null;//DBHelper.getInstance(this).getProduct();
+        ArrayList<ProductModel> productModelArrayList = DBHelper.getInstance(this).getProduct();
         if (productModelArrayList == null || productModelArrayList.isEmpty()) {
-
-            ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
-            Call<ArrayList<ProductModel>> productApiCall = apiInterface.getProducts();
-
-            productApiCall.enqueue(new Callback<ArrayList<ProductModel>>() {
-                @Override
-                public void onResponse(Call<ArrayList<ProductModel>> call, Response<ArrayList<ProductModel>> response) {
-                    pbProduct.setVisibility(View.GONE);
-                    Log.d("response", response.body().toString());
-                    ArrayList<ProductModel> productArrayList = response.body();
-                    setAdapter(productArrayList);
-                    DBHelper.getInstance(ProductListActivity.this).insertProducts(productArrayList);
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<ProductModel>> call, Throwable t) {
-                    pbProduct.setVisibility(View.GONE);
-                    t.printStackTrace();
-                }
-            });
-
-        }else{
+            getProductList();
+        } else {
             setAdapter(productModelArrayList);
         }
     }
@@ -132,14 +118,14 @@ public class ProductListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-         getMenuInflater().inflate(R.menu.menu_productlist, menu);
-         return true;
+        getMenuInflater().inflate(R.menu.menu_productlist, menu);
+        return true;
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.itm_logout:
                 PreferenceHelper.getInstance(ProductListActivity.this).setString(PreferenceHelper.KEY_TOKEN, null);
 
@@ -151,9 +137,39 @@ public class ProductListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setAdapter(ArrayList<ProductModel> productArrayList){
+    private void setAdapter(ArrayList<ProductModel> productArrayList) {
         rvProduct.setLayoutManager(new LinearLayoutManager(ProductListActivity.this));
         ProductAdapter productAdapter = new ProductAdapter(ProductListActivity.this, productArrayList);
         rvProduct.setAdapter(productAdapter);
+    }
+
+    private void getProductList() {
+        ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
+        Observable<ArrayList<ProductModel>> productApiObservable = apiInterface.getProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        productApiObservable
+                .subscribe(new Observer<ArrayList<ProductModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<ProductModel> productModels) {
+                        setAdapter(productModels);
+                        DBHelper.getInstance(ProductListActivity.this).insertProducts(productModels);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        pbProduct.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        pbProduct.setVisibility(View.GONE);
+                    }
+                });
     }
 }

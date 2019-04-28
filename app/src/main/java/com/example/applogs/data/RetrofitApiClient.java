@@ -1,5 +1,7 @@
 package com.example.applogs.data;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,6 +25,7 @@ public class RetrofitApiClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://my-json-server.typicode.com")
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)
                     .build();
         }

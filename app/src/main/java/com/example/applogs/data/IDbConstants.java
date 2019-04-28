@@ -30,4 +30,16 @@ public interface IDbConstants {
                 + " )";
      }
 
+     interface Image{
+         String TABLE_NAME = "products_images";
+         String PRODUCT_ID = "productId";
+         String IMAGES = "images";
+
+         String CREATE_TABLE = " CREATE TABLE "+TABLE_NAME+" ("
+                 +PRODUCT_ID+ " TEXT, "
+                 +IMAGES+ " TEXT"
+                 + " )";
+
+     }
+
 }
