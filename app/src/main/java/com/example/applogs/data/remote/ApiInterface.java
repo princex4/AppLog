@@ -1,4 +1,4 @@
-package com.example.applogs.data;
+package com.example.applogs.remote;
 
 import com.example.applogs.model.ProductModel;
 
