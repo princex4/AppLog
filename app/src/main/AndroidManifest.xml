@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ProductListActivity" />
+        <activity android:name=".ui.productlist.ProductListActivity" />
         <activity android:name=".activity.LoginActivity"></activity>
 
         <service

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.R;
+import com.example.applogs.ui.productlist.ProductListActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

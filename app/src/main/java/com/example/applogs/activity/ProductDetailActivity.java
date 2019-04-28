@@ -13,8 +13,9 @@ import android.util.Log;
 import com.example.applogs.R;
 import com.example.applogs.adapter.ProductDetailViewPagerAdapter;
 import com.example.applogs.model.ProductModel;
+import com.example.applogs.ui.base.BaseActivity;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends BaseActivity {
 
     public static final String BUNDLE_PRODUCT = "product";
 
@@ -30,10 +31,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
+        TAG = ProductDetailActivity.class.getSimpleName();
 
         Intent intent = getIntent();
         ProductModel product = intent.getParcelableExtra(BUNDLE_PRODUCT);
-        Log.d("Product Detail Activity", product.getName());
+        Log.d(TAG, product.getName());
 
         ProductDetailViewPagerAdapter viewPagerAdapter = new ProductDetailViewPagerAdapter(getSupportFragmentManager(), product);
         vpProduct.setAdapter(viewPagerAdapter);

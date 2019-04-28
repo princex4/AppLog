@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.R;
+import com.example.applogs.ui.productlist.ProductListActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;

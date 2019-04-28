@@ -2,7 +2,6 @@ package com.example.applogs.data;
 
 import android.content.Context;
 
-import com.example.applogs.activity.ProductListActivity;
 import com.example.applogs.data.local.DBHelper;
 import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.data.remote.ApiInterface;

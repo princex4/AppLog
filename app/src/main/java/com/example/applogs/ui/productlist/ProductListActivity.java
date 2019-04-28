@@ -1,4 +1,4 @@
-package com.example.applogs.activity;
+package com.example.applogs.ui.productlist;
 
 import android.content.Intent;
 
@@ -11,15 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.applogs.activity.LoginActivity;
 import com.example.applogs.adapter.ProductAdapter;
 import com.example.applogs.data.DataManager;
-import com.example.applogs.data.remote.ApiInterface;
-import com.example.applogs.data.local.DBHelper;
-import com.example.applogs.data.remote.RetrofitApiClient;
 import com.example.applogs.data.local.PreferenceHelper;
 import com.example.applogs.model.ProductModel;
 import com.example.applogs.R;
+import com.example.applogs.ui.base.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -34,9 +34,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ProductListActivity extends AppCompatActivity {
+public class ProductListActivity extends BaseActivity implements ProductListMvpView {
 
-    public static final String TAG = ProductListActivity.class.getSimpleName();
+    //public static final String TAG =
     private String username;
     @BindView(R.id.txt_username)
     TextView txtUserName;
@@ -45,18 +45,24 @@ public class ProductListActivity extends AppCompatActivity {
     @BindView(R.id.rv_product)
     RecyclerView rvProduct;
 
+    private ProductListPresenter productListPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
+        TAG = ProductListActivity.class.getSimpleName();
         ButterKnife.bind(this);
+        productListPresenter = new ProductListPresenter();
+        productListPresenter.attachView(this);
         Log.d(TAG, "OnCreate");
         txtUserName.setText(username);
         username = PreferenceHelper.getInstance(ProductListActivity.this).getString(PreferenceHelper.KEY_USERNAME);
         txtUserName.setText(username);
 
-        getProductList();
+        productListPresenter.getProducts();
+
     }
 
     @Override
@@ -87,6 +93,7 @@ public class ProductListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+        productListPresenter.detachView();
     }
 
     @Override
@@ -123,31 +130,25 @@ public class ProductListActivity extends AppCompatActivity {
         rvProduct.setAdapter(productAdapter);
     }
 
-    private void getProductList() {
-        Observable<ArrayList<ProductModel>> productApiObservable = DataManager.getInstance(ProductListActivity.this).getProducts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        productApiObservable
-                .subscribe(new Observer<ArrayList<ProductModel>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
 
-                    }
 
-                    @Override
-                    public void onNext(ArrayList<ProductModel> productModels) {
-                        setAdapter(productModels);
-                    }
+    @Override
+    public void showProducts(ArrayList<ProductModel> productModelArrayList) {
+        setAdapter(productModelArrayList);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        pbProduct.setVisibility(View.GONE);
-                    }
+    @Override
+    public void showError(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT)
+                .show();
+    }
 
-                    @Override
-                    public void onComplete() {
-                        pbProduct.setVisibility(View.GONE);
-                    }
-                });
+    @Override
+    public void showProgressBar(boolean isShow) {
+                if(isShow){
+                    pbProduct.setVisibility(View.VISIBLE);
+                }else{
+                    pbProduct.setVisibility(View.GONE);
+                }
     }
 }
